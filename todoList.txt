@@ -1,0 +1,17 @@
+Set up a virtual machine to work on your project.
+Create a folder named "srcs" and place all the files required for the configuration of your project in this folder.
+Create a Makefile at the root of your directory. This Makefile should set up your entire application, including building the Docker images using the docker-compose.yml file.
+Familiarize yourself with Docker and read documentation related to Docker usage to complete this assignment.
+Create Dockerfiles for each service in your project. These Dockerfiles should be called in your docker-compose.yml file using your Makefile.
+Build the Docker images of your project yourself. Do not pull ready-made Docker images or use services like DockerHub, except for Alpine/Debian.
+Set up the following containers:
+A Docker container that contains NGINX with TLSv1.2 or TLSv1.3 only.
+A Docker container that contains WordPress + php-fpm (installed and configured) without nginx.
+A Docker container that contains MariaDB without nginx.
+Create a volume for your WordPress database and another volume for your WordPress website files.
+Establish a Docker network to connect your containers.
+Configure your containers to restart in case of a crash.
+Set up two users in your WordPress database, one of them being the administrator. Ensure that the administrator's username does not contain "admin" or "administrator".
+Configure your domain name to point to your local IP address. The domain name should be "login.42.fr", where "login" is your own login.
+Store environment variables in a .env file located at the root of the srcs directory.
+Configure your NGINX container as the entrypoint into your infrastructure via port 443, using the TLSv1.2 or TLSv1.3 protocol.
