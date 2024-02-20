@@ -7,10 +7,12 @@ services:
     ports:
       - 8080:80
     volumes:
-      - wordpress_data:/var/www/html
-    restart: always
+      - wordpress:/var/www/html
+    restart: on-failure
     networks:
-      - network
+      - inception
+    depends_on:
+      - wordpress
   wordpress:
     container_name: wordpress
     depends_on:
@@ -19,27 +21,41 @@ services:
     env_file:
       - .env
     volumes:
-      - ./wordpress_data:/var/www/html
-    restart: always
+      - wordpress:/var/www/html
+    restart: on-failure
     networks:
-      - network
+      - inception
+    expose:
+      - 9000
   mariadb:
     container_name: mariadb
     image: mariadb
     volumes:
-      - mariadb_data:/var/lib/mysql
+      - mariadb:/var/lib/mysql
     networks:
-      - network
-    restart: always
+      - inception
+    restart: unless-stopped
     env_file:
       - .env
+    expose:
+      - 3306
 
 # Stores service data and establishes a connection with the main system
 volumes:
-  mariadb_data:
-    driver:local
+  mariadb:
+    driver: local
     driver_opts:
       type: none
-      device: /home/data/mysql
-      o: bing
+      device: /home/thuynguy/data/mariadb
+      o: bind
+  wordpress:
+    driver: local
+    driver_opts:
+      type: none
+      device: /home/thuynguy/data/wordpress
+      o: bind
+
+networks:
+  inception:
+    driver: bridge
 
