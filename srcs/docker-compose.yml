@@ -1,23 +1,15 @@
 version: '3'
 
 services:
-  nginx:
-    container_name: nginx
-    image: nginx
-    ports:
-      - 8080:80
-    volumes:
-      - wordpress:/var/www/html
-    restart: on-failure
-    networks:
-      - inception
-    depends_on:
-      - wordpress
   wordpress:
     container_name: wordpress
     depends_on:
       - mariadb
     image: bitnami/php-fpm
+      # build:
+      # context: ./requirements/wordpress
+    ports:
+      - 443:443
     env_file:
       - .env
     volumes:
@@ -25,8 +17,6 @@ services:
     restart: on-failure
     networks:
       - inception
-    expose:
-      - 9000
   mariadb:
     container_name: mariadb
     image: mariadb
@@ -37,8 +27,6 @@ services:
     restart: unless-stopped
     env_file:
       - .env
-    expose:
-      - 3306
 
 # Stores service data and establishes a connection with the main system
 volumes:
