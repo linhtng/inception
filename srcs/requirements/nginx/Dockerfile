@@ -1,9 +1,19 @@
-FROM nginx:latest
+FROM debian:buster
 
-ARG NGINX_HOST_DOMAIN
+RUN apt install nginx -y
 
-ENV NGINX_HOST_DOMAIN ${NGINX_HOST_DOMAIN}
+RUN apt install vim -y
 
-COPY conf/wordpress.conf /etc/nginx/conf.d/wordpress.conf
+RUN apt install curl -y
 
-RUN rm -f /etc/nginx/conf.d/default.conf
+RUN mkdir -p /etc/nginx/ssl
+
+RUN apt install OpenSSL -y
+
+ARG SSL_PATH=/etc/nginx/ssh/inception
+RUN openssl req -x509 -nodes -out ${SSL_PATH}.crt -keyout ${SSL_PATH}.key \
+	-subj "/CN=${SSL_PATH}"
+
+RUN mkdir -p /var/run/nginx
+
+COPY conf/nginx.conf /etc/nginx/nginx.conf
