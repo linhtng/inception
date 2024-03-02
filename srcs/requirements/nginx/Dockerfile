@@ -1,6 +1,6 @@
 FROM debian:bullseye
 
-RUN apt update && apt upgrade && apt install nginx openssl -y
+RUN apt-get update && apt-get upgrade && apt-get install nginx openssl -y
 
 RUN mkdir /etc/nginx/ssl
 
@@ -12,7 +12,7 @@ RUN mkdir -p /var/run/nginx
 
 COPY ./conf/nginx.conf /etc/nginx/conf.d
 
-RUN echo "Hello, Nginx!" > /var/www/html/index.html  # Add this line
+RUN echo "Hello, Nginx!" > /var/www/html/index.html
 
 RUN chmod 755 /var/www/html
 
