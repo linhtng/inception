@@ -1,36 +1,10 @@
-version: '3'
+version: '3.5'
 
 services:
-  nginx: 
-    container_name: nginx
-    image: nginx42
-    build:
-      context: ./requirements/nginx
-      args:
-        - NGINX_HOST_DOMAIN=${DOMAIN_NAME}
-    volumes:
-      - wordpress:/var/www/html
-    ports:
-      - 8080:80
-    networks:
-      - inception
-  wordpress:
-    container_name: wordpress
-    depends_on:
-      - mariadb
-    image: bitnami/php-fpm
-      # build:
-      # context: ./requirements/wordpress
-    env_file:
-      - .env
-    volumes:
-      - wordpress:/var/www/html
-    restart: on-failure
-    networks:
-      - inception
   mariadb:
     container_name: mariadb
-    image: mariadb
+    build:
+      context: ./requirements/mariadb
     volumes:
       - mariadb:/var/lib/mysql
     networks:
@@ -38,6 +12,34 @@ services:
     restart: unless-stopped
     env_file:
       - .env
+  nginx: 
+    container_name: nginx
+    depends_on:
+      - wordpress
+    build:
+      context: ./requirements/nginx
+    env_file:
+      - .env
+    volumes:
+      - wordpress:/var/www/html
+    ports:
+      - 443:443
+    networks:
+      - inception
+    restart: on-failure
+  wordpress:
+    container_name: wordpress
+    depends_on:
+      - mariadb
+    build:
+      context: ./requirements/wordpress
+    env_file:
+      - .env
+    volumes:
+      - wordpress:/var/www/html
+    restart: on-failure
+    networks:
+      - inception
 
 # Stores service data and establishes a connection with the main system
 volumes:
@@ -45,7 +47,7 @@ volumes:
     driver: local
     driver_opts:
       type: none
-      device: /home/thuynguy/data/mariadb
+      device: /home/thuynguy/data/mysql
       o: bind
   wordpress:
     driver: local

@@ -10,9 +10,12 @@ RUN openssl req -x509 -nodes -out /etc/nginx/ssl/inception.crt \
 
 RUN mkdir -p /var/run/nginx
 
-COPY ./conf/nginx.conf /etc/nginx/conf.d
+COPY ./conf/nginx.conf /etc/nginx/sites-available/default
+COPY ./tools/init_nginx.sh /var/www
 
-RUN echo "Hello, Nginx!" > /var/www/html/index.html
+RUN chmod +x /var/www/init_nginx.sh
+
+ENTRYPOINT ["/var/www/init_nginx.sh"]
 
 RUN chmod 755 /var/www/html
 
