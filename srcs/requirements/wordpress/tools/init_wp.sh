@@ -1,5 +1,18 @@
 #!/bin/sh
 
+WAIT_INTERVAL=5
+
+# Function to check if mariadb is up and running
+check_mariadb() {
+    mysql -u "$MYSQL_USER" -p "$MYSQL_PASSWORD" -h "$MYSQL_HOSTNAME" -e "SELECT 1;" >/dev/null 2>&1
+}
+
+until check_mariadb; do
+    echo "Waiting for MariaDB to start..."
+    sleep $WAIT_INTERVAL
+done
+
+
 if [ ! -f ./wp-config.php ]; 
 then
     echo "Installing WordPress"

@@ -47,13 +47,13 @@ volumes:
     driver: local
     driver_opts:
       type: none
-      device: /home/thuynguy/data/mysql
+      device: ./home/thuynguy/data/mariadb
       o: bind
   wordpress:
     driver: local
     driver_opts:
       type: none
-      device: /home/thuynguy/data/wordpress
+      device: ./home/thuynguy/data/wordpress
       o: bind
 
 networks:

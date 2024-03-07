@@ -1,0 +1,4 @@
+UID                 PID                 PPID                C                   STIME               TTY                 TIME                CMD
+root                55478               55460               0                   19:07               ?                   00:00:00            /bin/sh /usr/bin/mysqld_safe
+_rpc                55671               55478               0                   19:07               ?                   00:00:00            /usr/sbin/mariadbd --basedir=/usr --datadir=/var/lib/mysql --plugin-dir=/usr/lib/mysql/plugin --user=mysql --skip-log-error --pid-file=320294c4eb74.pid --socket=/run/mysqld/mysql.sock --port=3306
+root                55672               55478               0                   19:07               ?                   00:00:00            logger -t mysqld -p daemon error
