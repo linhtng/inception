@@ -4,7 +4,7 @@ WAIT_INTERVAL=5
 
 # Function to check if mariadb is up and running
 check_mariadb() {
-    mysqladmin ping -u "$MYSQL_USER" -p"$MYSQL_PASSWORD" -h "$MYSQL_HOSTNAME" >/dev/null 2>&1
+    mysql -u "$MYSQL_USER" -p"$MYSQL_PASSWORD" -h "$MYSQL_HOSTNAME" -e "SELECT 1;" >/dev/null 2>&1
 }
 
 until check_mariadb; do
