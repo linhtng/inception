@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 if [ -z "${MYSQL_ROOT_PASSWORD}" ] ; then
     echo "Error: MYSQL_DATABASE is not set"
@@ -12,9 +12,10 @@ fi
 
 mkdir -p /var/lib/mysql /run/mysqld /var/log/mysql
 chown -R mysql:mysql /var/lib/mysql /run/mysqld /var/log/mysql
+touch /var/log/mysql/error.err
 
 # Initialize MariaDB data directory and create system tables
-mysql_install_db --user=mysql --basedir=/usr --datadir=/var/lib/mysql >/dev/null
+mysql_install_db --user=mysql --basedir=/usr --datadir=/var/lib/mysql --rpm >/dev/null
 
 # Start MariaDB service in the background
 mysqld --user=mysql --skip-networking --socket=/run/mysqld/mysqld.sock --pid-file=/run/mysqld/mysqld.pid &
@@ -30,7 +31,6 @@ then
     mysql -u root -p"${MYSQL_ROOT_PASSWORD}" -e "CREATE DATABASE ${MYSQL_DATABASE};"
     mysql -u root -p"${MYSQL_ROOT_PASSWORD}" -e "CREATE USER '${MYSQL_USER}'@'%' IDENTIFIED BY '${MYSQL_PASSWORD}';"
     mysql -u root -p"${MYSQL_ROOT_PASSWORD}" -e "GRANT ALL PRIVILEGES ON ${MYSQL_DATABASE}.* TO '${MYSQL_USER}'@'%' IDENTIFIED BY '${MYSQL_PASSWORD}';"
-    mysql -e "FLUSH PRIVILEGES;"
 fi
 
 mysqladmin -u root -p"${MYSQL_ROOT_PASSWORD}" shutdown

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 if [ ! -f /etc/nginx/ssl/inception.crt ]; then
     echo "Creating self-signed SSL certificate...";

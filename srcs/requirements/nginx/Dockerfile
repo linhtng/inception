@@ -1,25 +1,20 @@
-FROM debian:bullseye
+FROM alpine:3.18.6
 
-RUN apt-get update && apt-get upgrade && apt-get install nginx openssl -y
+RUN apk update && apk add --no-cache nginx openssl
 
-RUN mkdir /etc/nginx/ssl
+RUN adduser -D -g 'www' www && \
+	mkdir /www && chown -R www:www /var/lib/nginx && \
+	chown -R www:www /www
 
-RUN openssl req -x509 -nodes -out /etc/nginx/ssl/inception.crt \
-	-keyout /etc/nginx/ssl/inception.key \
-	-subj "/CN=thuynguy.42.fr"
+RUN mkdir /etc/nginx/ssl && \
+	sed -i 's/user nginx;/user www;/' /etc/nginx/nginx.conf
 
-RUN mkdir -p /var/run/nginx
-
-COPY ./conf/nginx.conf /etc/nginx/sites-available/default
+COPY ./conf/nginx.conf /etc/nginx/http.d/default.conf
 COPY ./tools/init_nginx.sh /var/www
 
 RUN chmod +x /var/www/init_nginx.sh
 
 ENTRYPOINT ["/var/www/init_nginx.sh"]
-
-RUN chmod 755 /var/www/html
-
-RUN chown -R www-data:www-data /var/www/html
 
 EXPOSE	443
 

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 mkdir -p $(dirname "$0")/home/thuynguy/data/wordpress
 mkdir -p $(dirname "$0")/home/thuynguy/data/mariadb

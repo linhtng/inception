@@ -4,7 +4,7 @@ WAIT_INTERVAL=5
 
 # Function to check if mariadb is up and running
 check_mariadb() {
-    mysql -u "$MYSQL_USER" -p "$MYSQL_PASSWORD" -h "$MYSQL_HOSTNAME" -e "SELECT 1;" >/dev/null 2>&1
+    mysqladmin ping -u "$MYSQL_USER" -p"$MYSQL_PASSWORD" -h "$MYSQL_HOSTNAME" >/dev/null 2>&1
 }
 
 until check_mariadb; do
@@ -15,6 +15,7 @@ done
 
 if [ ! -f ./wp-config.php ]; 
 then
+    rm -rf ./wordpress
     echo "Installing WordPress"
     wp core download --allow-root
     wp config create --dbname=$MYSQL_DATABASE --dbuser=$MYSQL_USER --dbpass=$MYSQL_PASSWORD --dbhost=$MYSQL_HOSTNAME --allow-root
@@ -24,4 +25,4 @@ then
 fi
 
 # Start the PHP-FPM service in the foreground and leave it running constantly with -F
-/usr/sbin/php-fpm7.4 -F;
+/usr/sbin/php-fpm81 -F;

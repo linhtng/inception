@@ -1,6 +1,6 @@
-FROM debian:bullseye
+FROM alpine:3.18.6
 
-RUN apt-get update && apt-get upgrade && apt-get install mariadb-server -y
+RUN apk update && apk add --no-cache mariadb mariadb-client
 
 COPY ./conf/50-server.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
 
