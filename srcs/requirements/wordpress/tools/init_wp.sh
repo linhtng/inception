@@ -12,10 +12,13 @@ until check_mariadb; do
     sleep $WAIT_INTERVAL
 done
 
+# Create the directory to enable the php-fpm service to start
+mkdir -p /var/www/html/wordpress /run/php/
+cd /var/www/html/
 
-if [ ! -f ./wp-config.php ]; 
+if [ ! -f "./.wpExists"]; 
 then
-    rm -rf ./wordpress
+    touch ./.wpExists
     echo "Installing WordPress"
     wp core download --allow-root
     wp config create --dbname=$MYSQL_DATABASE --dbuser=$MYSQL_USER --dbpass=$MYSQL_PASSWORD --dbhost=$MYSQL_HOSTNAME --allow-root
@@ -23,6 +26,9 @@ then
     wp user create $WORDPRESS_USER $WORDPRESS_USER_EMAIL --role=author --user_pass=$WORDPRESS_USER_PASSWORD --allow-root
     wp theme install twentytwentyfour --activate --allow-root
 fi
+
+chown -R www:www /var/www/html/
+chmod -R 755 /var/www/html/
 
 # Start the PHP-FPM service in the foreground and leave it running constantly with -F
 /usr/sbin/php-fpm81 -F;

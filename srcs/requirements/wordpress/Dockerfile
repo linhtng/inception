@@ -16,15 +16,10 @@ RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli
 # Copy the custom configuration file to the container
 COPY ./conf/www.conf /etc/php81/php-fpm.d/www.conf
 
-# Create the directory to enable the php-fpm service to start
-RUN mkdir /run/php && chmod 755 /run/php
-
 COPY ./tools/init_wp.sh /usr/local/bin/init_wp.sh
 RUN chmod +x /usr/local/bin/init_wp.sh
 
 EXPOSE 9000
 
-# Go to the html directory
-WORKDIR /var/www/html
 
 ENTRYPOINT ["/usr/local/bin/init_wp.sh"]
