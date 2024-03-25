@@ -1,10 +1,13 @@
 FROM debian:bullseye
 
-RUN apt-get update && apt-get upgrade && apt-get install mariadb-server -y
+RUN apt-get update -y && apt-get install mariadb-server mariadb-client -y \
+	&& rm -rf /var/lib/apt/lists/*
 
 COPY ./conf/50-server.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
 
-RUN mkdir -p /var/run/mysqld && chown -R mysql:mysql /var/run/mysqld && chmod 755 /var/run/mysqld
+RUN mkdir -p /var/run/mysqld \
+	&& chown -R mysql:mysql /var/run/mysqld \
+	&& chmod 777 /var/run/mysqld
 
 EXPOSE 3306
 
