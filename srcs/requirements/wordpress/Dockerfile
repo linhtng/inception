@@ -15,14 +15,11 @@ RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli
 COPY ./conf/www.conf /etc/php/7.4/fpm/pool.d/www.conf
 
 # Create the directory to enable the php-fpm service to start
-RUN mkdir /run/php && chmod 755 /run/php
+RUN mkdir -p /run/php && chmod 755 /run/php
 
 COPY ./tools/init_wp.sh /usr/local/bin/init_wp.sh
 RUN chmod +x /usr/local/bin/init_wp.sh
 
 EXPOSE 9000
 
-# Go to the html directory
-WORKDIR /var/www/html
-
-ENTRYPOINT ["/usr/local/bin/init_wp.sh"]
+CMD ["/usr/local/bin/init_wp.sh"]

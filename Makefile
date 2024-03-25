@@ -10,13 +10,14 @@ build: prepare
 	docker compose -f srcs/docker-compose.yml build
 
 # Start the services
-up:
+up: build
 	docker compose -f srcs/docker-compose.yml up -d
 
 # Stop the services
-down:
-	docker compose -f srcs/docker-compose.yml down -v
+clean:
+	docker rm -vf $$(docker ps -aq)
+	docker rmi -f $$(docker images -aq)
 
-fclean: down
+fclean: clean
 	rm -rf srcs/home/thuynguy/data/wordpress
 	rm -rf srcs/home/thuynguy/data/mariadb
