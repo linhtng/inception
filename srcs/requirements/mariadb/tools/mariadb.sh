@@ -17,7 +17,7 @@ chown -R mysql:mysql /var/log/mysql
 touch /var/log/mysql/error.log
 
 # Initialize MariaDB data directory and create system tables
-mysql_install_db --user=mysql --basedir=/usr --datadir=/var/lib/mysql --rpm >/dev/null
+mysql_install_db --user=mysql --basedir=/usr --ldata=/var/lib/mysql --rpm >/dev/null
 
 # Start MariaDB service in the background
 echo "Starting MariaDB service"
