@@ -8,6 +8,8 @@ RUN apk update && apk add --no-cache curl \
     php-phar \
     mariadb-client
 
+RUN adduser -D -g 'www' www && mkdir -p /www && chown -R www:www /www
+
 # Install WP-CLI. Make the file executable and move it to /usr/local/bin/, so it can be run as just wp, instead of php wp-cli.phar
 RUN curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
     && chmod +x wp-cli.phar \
@@ -18,6 +20,7 @@ COPY ./conf/www.conf /etc/php81/php-fpm.d/www.conf
 
 COPY ./tools/init_wp.sh /usr/local/bin/init_wp.sh
 RUN chmod +x /usr/local/bin/init_wp.sh
+
 
 EXPOSE 9000
 

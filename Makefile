@@ -10,7 +10,7 @@ build: prepare
 	docker compose -f srcs/docker-compose.yml build
 
 # Start the services
-up:
+up: build
 	docker compose -f srcs/docker-compose.yml up -d
 
 # Stop the services

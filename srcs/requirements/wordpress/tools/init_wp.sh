@@ -16,7 +16,7 @@ done
 mkdir -p /var/www/html/wordpress /run/php/
 cd /var/www/html/
 
-if [ ! -f "./.wpExists"]; 
+if [ ! -f "./.wpExists" ]; 
 then
     touch ./.wpExists
     echo "Installing WordPress"
