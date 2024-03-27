@@ -9,14 +9,12 @@ done
 echo "MariaDB is accessible."
 
 # Create the directory to enable the php-fpm service to start
-# mkdir -p /var/www/html/wordpress /run/php/
-# cd /var/www/html/
+mkdir -p /var/www/html /var/www/html/wordpress /run/php/
+chown -R www:www /var/www/html/
+cd /var/www/html;
 
 if [ ! -f /var/www/html/wp-config.php ]; 
 then
-    mkdir -p var/www/html
-    chown -R www:www /var/www/html/
-	cd /var/www/html;
     echo "Installing WordPress"
     wp core download --allow-root
     wp config create --dbname=$MYSQL_DATABASE --dbuser=$MYSQL_USER --dbpass=$MYSQL_PASSWORD --dbhost=$MYSQL_HOSTNAME --allow-root

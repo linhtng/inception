@@ -1,12 +1,12 @@
 .PHONY: build up down
 
 # Create directories for mounting volumes
-# prepare:
-# 	mkdir -p srcs/home/thuynguy/data/wordpress
-# 	mkdir -p srcs/home/thuynguy/data/mariadb
+prepare:
+	mkdir -p srcs/home/thuynguy/data/wordpress
+
 
 # Build the Docker images
-build:
+build: prepare
 	docker compose -f srcs/docker-compose.yml build
 
 # Start the services
@@ -18,6 +18,5 @@ clean:
 	docker rm -vf $$(docker ps -aq)
 	docker rmi -f $$(docker images -aq)
 
-# fclean: clean
-# 	rm -rf srcs/home/thuynguy/data/wordpress
-# 	rm -rf srcs/home/thuynguy/data/mariadb
+fclean: clean
+	rm -rf srcs/home/thuynguy/data/wordpress
