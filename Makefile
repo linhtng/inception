@@ -1,5 +1,9 @@
 .PHONY: build up down
 
+# Prepare the environment
+prepare:
+	mkdir -p srcs/home/thuynguy/data/wordpress
+	mkdir -p srcs/home/thuynguy/data/mariadb
 
 # Build the Docker images
 build: prepare
