@@ -1,4 +1,5 @@
 .DS_Store
+.env
 srcs/.DS_Store
 srcs/home/
 srcs/requirements/.DS_Store
